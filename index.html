@@ -1,0 +1,195 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="jquery-3.3.1.min.js"><\/script>');
+    </script>
+    <link type="text/css" rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <script>window.jQuery.ui || document.write('<script src="jquery-ui.min.js"><\/script>')</script>
+
+    <title>CodePlayer</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-flow: column nowrap;
+        }
+
+        #topbar {
+            background-color: lightgrey;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+
+        }
+
+        #logo {
+            font-size: 25px;
+            margin-left: 20px;
+            position: absolute;
+        }
+
+        #tabs {
+            display: flex;
+            flex-direction: row;
+            position: relative;
+            margin: auto;
+            border: 1px solid black;
+            border-radius: 3px;
+            background-color: lightblue;
+
+        }
+
+        #tabs p {
+            padding: 4px;
+            margin: 0px;
+        }
+
+        #ipop {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            flex: 1 1 auto;
+        }
+
+        .ipopbox {
+            border: 1px solid lightgrey;
+            flex: 1 1 auto;
+            display: flex;
+            flex-flow: row;
+
+
+        }
+
+        .grey {
+            background-color: lightgrey;
+        }
+
+        #iphtmltext {
+            margin: 0;
+
+            width: 100%;
+            font-size: 15px;
+            resize: horizontal;
+
+        }
+
+        #ipcsstext {
+            margin: 0;
+
+            width: 100%;
+            font-size: 15px;
+            resize: horizontal;
+
+        }
+
+        #ipjstext {
+            margin: 0;
+
+            width: 100%;
+            font-size: 15px;
+            resize: horizontal;
+
+        }
+
+        #output {
+            display: flex;
+        }
+
+        #outputframe {
+            width: 100%;
+        }
+
+        ::placeholder {
+            color: lightgrey;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div id="topbar">
+        <div id="logo">
+            CodePlayer
+        </div>
+        <div id="tabs">
+            <p id="toghtml">HTML</p>
+            <p id="togcss">CSS</p>
+            <p id="togjs">JavaScript</p>
+            <p id="togoutput">Output</p>
+        </div>
+    </div>
+
+    <div id="ipop">
+        <div class="ipopbox" id="iphtml">
+            <textarea name="iphtmltext" id="iphtmltext" placeholder="Input HTML here"></textarea>
+        </div>
+        <div id="ipcss" class="ipopbox">
+            <textarea name="ipcsstext" id="ipcsstext" placeholder="Input CSS here"></textarea>
+        </div>
+        <div id="ipjs" class="ipopbox">
+            <textarea name="ipjstext" id="ipjstext" placeholder="Input JavaScript here"></textarea>
+        </div>
+        <div id="output" class="ipopbox">
+            <iframe id="outputFrame">
+            </iframe>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    window.targetFunction =function(){
+        $('a', frameDoc).html("abc");
+            };
+        var frameDoc = $('#outputFrame')[0].contentWindow.document;
+        $('head', frameDoc).html("<style id = 'livestyle'>@livehtml{width:100%;height:100%;}</style> <script id = 'livescript'>");
+        $('body', frameDoc).html("<div id = 'livehtml'></div> <div id = 'livejs'>")
+
+        $("#toghtml").click(function () {
+            $("#iphtml").toggle();
+            $(this).toggleClass("grey");
+
+
+        });
+        $("#togcss").click(function () {
+            $("#ipcss").toggle();
+            $(this).toggleClass("grey");
+        });
+        $("#togjs").click(function () {
+            $("#ipjs").toggle();
+            $(this).toggleClass("grey");
+        });
+        $("#togoutput").click(function () {
+            $("#output").toggle();
+            $(this).toggleClass("grey");
+        });
+
+
+        $('#ipcsstext').keyup(function () {
+            frameDoc = $('#outputFrame')[0].contentWindow.document;
+            $('#livestyle', frameDoc).html($(this).val());
+        });
+        $('#iphtmltext').keyup(function () {
+            frameDoc = $('#outputFrame')[0].contentWindow.document;
+            $('#livehtml', frameDoc).html($(this).val());
+        });
+        $('#ipjstext').keyup(function () {
+            frameDoc = $('#outputFrame')[0].contentWindow.document;
+//            $('#outputFrame').window.parent.targetFunction().fire();
+            frameDoc.open();
+    frameDoc.getElementById('livejs').write('\<script>parent.targetFunction();\<\/script>');
+    frameDoc.close();
+        });
+
+    </script>
+
+
+</body>
+
+</html>
