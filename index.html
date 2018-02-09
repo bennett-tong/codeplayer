@@ -109,6 +109,21 @@
         ::placeholder {
             color: lightgrey;
         }
+        .tabs:hover{
+            background-color:grey;
+        }
+        #toghtml{
+            border-right:1px solid black;
+        }
+        #togcss{
+            border-right:1px solid black;
+        }
+        #togjs{
+            border-right:1px solid black;
+        }
+        .nohighlight:hover{
+            cursor: default;
+        }
     </style>
 
 
@@ -120,10 +135,10 @@
             CodePlayer
         </div>
         <div id="tabs">
-            <p id="toghtml">HTML</p>
-            <p id="togcss">CSS</p>
-            <p id="togjs">JavaScript</p>
-            <p id="togoutput">Output</p>
+            <p class = 'nohighlight' id="toghtml">HTML</p>
+            <p class = 'nohighlight' id="togcss">CSS</p>
+            <p class = 'nohighlight' id="togjs">JavaScript</p>
+            <p class = 'nohighlight' id="togoutput">Output</p>
         </div>
     </div>
 
@@ -144,47 +159,51 @@
     </div>
     <script type="text/javascript">
 
-    window.targetFunction =function(){
-        $('a', frameDoc).html("abc");
-            };
+
         var frameDoc = $('#outputFrame')[0].contentWindow.document;
         $('head', frameDoc).html("<style id = 'livestyle'>@livehtml{width:100%;height:100%;}</style> <script id = 'livescript'>");
-        $('body', frameDoc).html("<div id = 'livehtml'></div> <div id = 'livejs'>")
+        $('body', frameDoc).html("<div id = 'livehtml'></div> ")
 
         $("#toghtml").click(function () {
             $("#iphtml").toggle();
             $(this).toggleClass("grey");
-
+            $(this).toggleClass("tabs");
 
         });
         $("#togcss").click(function () {
             $("#ipcss").toggle();
             $(this).toggleClass("grey");
+            $(this).toggleClass("tabs");
         });
         $("#togjs").click(function () {
             $("#ipjs").toggle();
             $(this).toggleClass("grey");
+            $(this).toggleClass("tabs");
         });
         $("#togoutput").click(function () {
             $("#output").toggle();
             $(this).toggleClass("grey");
+            $(this).toggleClass("tabs");
         });
 
-
-        $('#ipcsstext').keyup(function () {
+        function fillFrame () {
+            var frameWind = $('#outputFrame')[0].contentWindow
             frameDoc = $('#outputFrame')[0].contentWindow.document;
-            $('#livestyle', frameDoc).html($(this).val());
+            $('#livestyle', frameDoc).html($("#ipcsstext").val());
+            $('#livehtml', frameDoc).html($("#iphtmltext").val());
+            frameWind.eval($("#ipjstext").val());
+        }
+
+        fillFrame();
+
+        $('#ipcsstext').keyup(function(){
+            fillFrame();
         });
         $('#iphtmltext').keyup(function () {
-            frameDoc = $('#outputFrame')[0].contentWindow.document;
-            $('#livehtml', frameDoc).html($(this).val());
+            fillFrame();
         });
         $('#ipjstext').keyup(function () {
-            frameDoc = $('#outputFrame')[0].contentWindow.document;
-//            $('#outputFrame').window.parent.targetFunction().fire();
-            frameDoc.open();
-    frameDoc.getElementById('livejs').write('\<script>parent.targetFunction();\<\/script>');
-    frameDoc.close();
+            fillFrame();
         });
 
     </script>
