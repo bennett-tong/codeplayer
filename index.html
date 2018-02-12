@@ -57,8 +57,8 @@
             align-items: stretch;
             flex: 1 1 auto;
             left: 0;
-            border-left:2px grey solid;
-            border-right:2px grey solid;
+            border-left: 2px grey solid;
+            border-right: 2px grey solid;
         }
 
         .ipopbox {
@@ -104,15 +104,17 @@
 
         #output {
             display: flex;
-            overflow: hidden;
+           /* overflow: hidden; */
             margin: 0;
             resize: none;
-            width: 100%;
+           
         }
 
         #outputframe {
+            margin: 0;
             overflow: scroll;
-            flex: 1 1 auto;
+            width:100%;
+           
         }
 
         ::placeholder {
@@ -147,7 +149,7 @@
 
 
         .flexauto {
-            flex: 1 1 25%; 
+            flex: 1 1 25%;
         }
     </style>
 
@@ -197,21 +199,30 @@
             $(this).toggleClass("grey");
             $(this).toggleClass("tabs");
 
+            $(".flexauto").css("flex", "1 1 " + (100 / $(".ipopbox").length) + "%");
+            fixIndvWidth();
+
         });
         $("#togcss").click(function () {
             $("#ipcss").toggle();
             $(this).toggleClass("grey");
             $(this).toggleClass("tabs");
+            $(".flexauto").css("flex", "1 1 " + (100 / $(".ipopbox").length) + "%");
+            fixIndvWidth();
         });
         $("#togjs").click(function () {
             $("#ipjs").toggle();
             $(this).toggleClass("grey");
             $(this).toggleClass("tabs");
+            $(".flexauto").css("flex", "1 1 " + (100 / $(".ipopbox").length) + "%");
+            fixIndvWidth();
         });
         $("#togoutput").click(function () {
             $("#output").toggle();
             $(this).toggleClass("grey");
             $(this).toggleClass("tabs");
+            $(".flexauto").css("flex", "1 1 " + (100 / $(".ipopbox").length) + "%");
+            fixIndvWidth();
         });
 
         function fillFrame() {
@@ -224,29 +235,33 @@
 
         fillFrame();
         function fixIndvWidth() {
-/*$(".f").width() / $('.f').parent().width() * 100;
-            alert($("#iphtml").width()+ "px")
-            $("#iphtml").css("width",$("#iphtml").width()+ "px");
-            $("#ipcss").css("width",$("#ipcss").width()+ "px");
-            $("#ipjs").css("width",$("#ipjs").width()+ "px");
-            $("#output").css("width",$("#output").width()+ "px");
-            */
-            $("#iphtml").width($("#iphtml").width()/$("#iphtml").parent().width()*100 + "%");
-            $("#ipcss").width($("#ipcss").width()/$("#ipcss").parent().width()*100 + "%");
-            $("#ipjs").width($("#ipjs").width()/$("#ipjs").parent().width()*100 + "%");
-            $("#output").width($("#output").width()/$("#output").parent().width()*100 + "%");
-      
+            /*$(".f").width() / $('.f').parent().width() * 100;
+                        alert($("#iphtml").width()+ "px")
+                        $("#iphtml").css("width",$("#iphtml").width()+ "px");
+                        $("#ipcss").css("width",$("#ipcss").width()+ "px");
+                        $("#ipjs").css("width",$("#ipjs").width()+ "px");
+                        $("#output").css("width",$("#output").width()+ "px");
+                        */
+                        console.log($("#iphtml").width());
+            $("#iphtml").width($("#iphtml").width() / $("#iphtml").parent().width() * 100 + "%");
+            console.log($("#ipcss").width());
+            $("#ipcss").width($("#ipcss").width() / $("#ipcss").parent().width() * 100 + "%");
+            console.log($("#ipjs").width());
+            $("#ipjs").width($("#ipjs").width() / $("#ipjs").parent().width() * 100 + "%");
+            $("#output").width($("#output").width() / $("#output").parent().width() * 100 + "%");
+            $('.flexauto').css("flex", "none");
 
 
         }
 
         function fixWidth() {
-            $('.ipopbox').width($(".ipopbox").width()+"px");
-            console.log($("#iphtml").width());
+           // $('.ipopbox').width($(".ipopbox").width() / $(".ipopbox").parent().width() * 100 + "% !important");
+           $('.ipopbox').width( (100 / $(".ipopbox").length ) + "% !important");
+           console.log($("#iphtml").width());
             console.log($(".ipopbox").width());
 
         }
-        fixWidth();
+        fixIndvWidth();
 
         $('#ipcsstext').keyup(function () {
             fillFrame();
@@ -257,102 +272,31 @@
         $('#ipjstext').keyup(function () {
             fillFrame();
         });
-        /*        $(".spacer").draggable({
-                    axis:"x"
-                });
-                */
-        /*         $(".ipopbox.odd").resizable({
-                    handles: "e",
-        
-                    stop: function (event, ui) {
-                        setWidthInPercent(ui.element);
-                    }
-                });
-        
-        
-                $(".ipopbox.even").resizable({
-                    handles: "e",
-                    resize: function(event, ui) {
-            ui.position.left = 0;
-            },
-                    stop: function (event, ui) {
-                        setWidthInPercent(ui.element);
-                    }
-                });
-           resize: function(event, ui) {
-            ui.position.left = 0;
-            },
-        
-            */
 
-        /*  $("#iphtml").resizable({
-                  handles: "w,e",
-                  resize: function(event,ui){
-                //      $("#ipcss").css("flex","1 1 auto");
-                  //   $("#output").css("flex","0 0 auto");
-                     
-                  },
-                  stop: function(event,ui){
-                  //    alert($("#ipcss").css("width"));
-                 //     $("#output").css("flex","1 1 auto");
-                  }
-              });
-      
-              $("#ipcss").resizable({
-                  handles: "w",
-                  resize: function(event,ui){
-                      $(this).css("left","0");
-                      $("#iphtml").css("flex","1 1 auto");
-                      $("#ipjs").css("flex","0 0 auto");
-                      $("#output").css("flex","0 0 auto");
-                  
-       
-                  },
-                  stop: function(event,ui){
-                      $("#iphtml").width($("#iphtml").width());
-                      $("#iphtml").css("flex","0 0 auto");
-                      $(this).width($(this).width());
-                      $("#output").css("flex","1 1 auto");
-                      
-                      
-                  }
-              });
-      */
         $("#ipcss").resizable({
             handles: "w,e",
             resize: function (event, ui) {
+                $('.ipopbox').css("left", "0");
                 if ($(this).data('ui-resizable').axis == 'e') {
-                    $('.ipopbox').css("left", "0");
                     
-                    $(this).css("flex", "0 0 auto");
+
+            //        $(this).css("flex", "0 0 auto");
                     $("#ipjs").css("flex", "1 1 auto");
-                   $("#iphtml").css("flex", "0 0 auto");
-                    $("#output").css("flex", "0 0 auto");
+              //      $("#iphtml").css("flex", "0 0 auto");
+              //      $("#output").css("flex", "0 0 auto");
 
                 }
                 else {
 
-                    $('.ipopbox').css("left", "0");
                     $("#iphtml").css("flex", "1 1 auto");
-                    $(this).css("flex", "0 0 auto");
-                    $("#ipjs").css("flex", "0 0 auto");
-                    $("#output").css("flex", "0 0 auto");
+             //       $(this).css("flex", "0 0 auto");
+              //      $("#ipjs").css("flex", "0 0 auto");
+             //       $("#output").css("flex", "0 0 auto");
 
                 }
             },
             stop: function (event, ui) {
-                if ($(this).data('ui-resizable').axis == 'e') {
                     fixIndvWidth();
-                    $("#ipjs").css("flex", "0 0 auto");
-                    $("#output").css("flex", "1 1 auto");
-                }
-                else {
-                    fixIndvWidth();
-
-                    $("#iphtml").css("flex", "0 0 auto");
-
-                    $("#output").css("flex", "1 1 auto");
-                }
 
             }
         });
@@ -362,10 +306,11 @@
             resize: function (event, ui) {
 
                 $('.ipopbox').css("left", "0");
-                $(this).css("flex", "0 0 auto");
-                $("#output").css("flex", "none");
-                $("#iphtml").css("flex", "0 0 auto");
-                $("#ipcss").css("flex", "0 0 auto");
+            //    $(this).css("flex", "0 0 auto");
+                
+            //    $("#iphtml").css("flex", "0 0 auto");
+             //   $("#ipcss").css("flex", "0 0 auto");
+                $("#output").css("flex", "1 1 auto");
 
 
 
@@ -373,10 +318,9 @@
             stop: function (event, ui) {
 
                 fixIndvWidth();
-                $("#ipcss").css("flex", "0 0 auto");
-                //                   $(this).width($(this).width());
+        /*        $("#ipcss").css("flex", "0 0 auto");
                 $("#iphtml").css("flex", "0 0 auto");
-                $("#output").css("flex", "1 1 auto");
+                $("#output").css("flex", "1 1 auto"); */
             }
 
 
